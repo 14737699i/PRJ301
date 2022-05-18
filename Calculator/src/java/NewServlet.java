@@ -80,26 +80,29 @@ public class NewServlet extends HttpServlet {
             response.getWriter().println("You are not input number. Can not calculate!");
             return;
         }
-        response.getWriter().println(num1);
-        response.getWriter().println(operator);
-        response.getWriter().println(num2);
-        response.getWriter().println("=");
+//        response.getWriter().println(num1);
+//        response.getWriter().println(operator);
+//        response.getWriter().println(num2);
+//        response.getWriter().println("=");
+        double result = 0;
         switch (operator) {
             case "+":
-                response.getWriter().println(num1 + num2);
+                result = num1 + num2;
                 break;
             case "-":
-                response.getWriter().println( num1 - num2);
+                result = num1 - num2;
                 break;
             case "*":
-                response.getWriter().println( num1 * num2);
+                result = num1 * num2;
                 break;
             case "/":
-                response.getWriter().println( num1 / num2);
+                result = num1 / num2;
                 break;
             default:
                 throw new AssertionError();
         }
+        request.setAttribute("result", result);
+        request.getRequestDispatcher("view/cal").forward(request, response);
     }
 
     /** 
