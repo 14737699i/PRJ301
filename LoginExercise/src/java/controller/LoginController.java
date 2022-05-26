@@ -5,6 +5,7 @@
 
 package controller;
 
+import com.oracle.wls.shaded.org.apache.bcel.generic.AALOAD;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -12,7 +13,14 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-
+import java.sql.PreparedStatement;
+import dal.DBContext;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 /**
  *
  * @author win
@@ -68,7 +76,37 @@ public class LoginController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            Connection connection = null;
+            String user = "hoangph";
+            String pass = "123";
+            String url = "jdbc:sqlserver://localhost\\MSSQLServer2019:1433;databaseName=LoginExercise";
+            try {
+                connection = DriverManager.getConnection(url, user, pass);
+            } catch (SQLException ex) {
+                Logger.getLogger(DBContext.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            try {
+                Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(DBContext.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            String userInput = request.getParameter("user");
+            String passInput = request.getParameter("pass");
+            String sql = "select username, password, displayName from Account where username ='"+ userInput + "' AND password='" + passInput + "'";
+            
+            PreparedStatement stm = connection.prepareStatement(sql);
+            ResultSet rs = stm.executeQuery();
+            String display = "Login fail!";
+            if(rs.next()){     
+                display = Hello +  rs.getString("displayName");
+            }
+            
+            response.getWriter().println(display);
+        } catch (SQLException ex) {
+            Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
     }
 
     /** 
