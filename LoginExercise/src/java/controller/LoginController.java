@@ -99,7 +99,7 @@ public class LoginController extends HttpServlet {
             ResultSet rs = stm.executeQuery();
             String display = "Login fail!";
             if(rs.next()){     
-                display = Hello +  rs.getString("displayName");
+                display = "Hello " +  rs.getString("displayName");
             }
             
             response.getWriter().println(display);
