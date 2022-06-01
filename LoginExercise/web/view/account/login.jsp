@@ -16,7 +16,7 @@
         <form action="login" method="POST">
         user:  <input type="text" name="user" /> <br/>
         pass: <input type="password" name="pass"/> <br/>
-        <input type="submit" value="Send" />
+        <input type="submit" value="Login" />
         </form>
     </body>
 </html>

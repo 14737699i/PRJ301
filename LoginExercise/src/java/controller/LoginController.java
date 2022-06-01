@@ -5,6 +5,7 @@
 package controller;
 
 import com.oracle.wls.shaded.org.apache.bcel.generic.AALOAD;
+import dal.AccountDBContext;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -18,8 +19,10 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import model.Account;
 
 /**
  *
@@ -80,6 +83,12 @@ public class LoginController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
+        
+//        DBContext<Account> db = new AccountDBContext();
+//        ArrayList<Account> accounts = db.list();
+        
+        
         try {
             Connection connection = null;
             String user = "hoangph";
@@ -105,7 +114,13 @@ public class LoginController extends HttpServlet {
             if (rs.next()) {
                 display = "Hello " + rs.getString("displayName");
             }
-
+            
+            try {
+                connection.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        
 //            response.getWriter().println(display);
             request.setAttribute("displayName", display);
             request.getRequestDispatcher("view/account/info.jsp").forward(request, response);

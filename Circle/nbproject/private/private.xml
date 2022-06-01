@@ -2,13 +2,6 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group>
-            <file>file:/F:/Semester4/PRJ301/PRJ301-MyAssignment/Circle/web/META-INF/context.xml</file>
-            <file>file:/F:/Semester4/PRJ301/PRJ301-MyAssignment/Circle/src/java/model/MyCircle.java</file>
-            <file>file:/F:/Semester4/PRJ301/PRJ301-MyAssignment/Circle/src/java/view/ViewCircles.java</file>
-            <file>file:/F:/Semester4/PRJ301/PRJ301-MyAssignment/Circle/web/WEB-INF/web.xml</file>
-            <file>file:/F:/Semester4/PRJ301/PRJ301-MyAssignment/Circle/src/java/NewServlet.java</file>
-            <file>file:/F:/Semester4/PRJ301/PRJ301-MyAssignment/Circle/web/index.html</file>
-        </group>
+        <group/>
     </open-files>
 </project-private>
