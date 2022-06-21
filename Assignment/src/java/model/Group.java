@@ -8,9 +8,10 @@ package model;
  *
  * @author win
  */
-public class Course {
+public class Group {
     private String id;
-    private String courseName;
+    private String courseId;
+    private String lectureId;
 
     public String getId() {
         return id;
@@ -20,13 +21,22 @@ public class Course {
         this.id = id;
     }
 
-    public String getCourseName() {
-        return courseName;
+    public String getCourseId() {
+        return courseId;
     }
 
-    public void setCourseName(String courseName) {
-        this.courseName = courseName;
+    public void setCourseId(String courseId) {
+        this.courseId = courseId;
     }
+
+    public String getLectureId() {
+        return lectureId;
+    }
+
+    public void setLectureId(String LectureId) {
+        this.lectureId = LectureId;
+    }
+    
     
     
 }

@@ -8,9 +8,8 @@ package model;
  *
  * @author win
  */
-public class Course {
+public class Room {
     private String id;
-    private String courseName;
 
     public String getId() {
         return id;
@@ -19,14 +18,6 @@ public class Course {
     public void setId(String id) {
         this.id = id;
     }
-
-    public String getCourseName() {
-        return courseName;
-    }
-
-    public void setCourseName(String courseName) {
-        this.courseName = courseName;
-    }
     
-    
+        
 }
