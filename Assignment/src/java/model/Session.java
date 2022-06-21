@@ -4,6 +4,8 @@
  */
 package model;
 
+import java.sql.Date;
+
 /**
  *
  * @author win
@@ -13,9 +15,9 @@ public class Session {
     private Group group;
     private int timeSlotId;
     private int sessionNo;
-    private int sessionDate;
-    private Room room;
-    private Lecture lecture;
+    private Date sessionDate;
+    private String room;
+    private String lectureId;
     private boolean status;
 
     public boolean isStatus() {
@@ -59,29 +61,32 @@ public class Session {
         this.sessionNo = sessionNo;
     }
 
-    public int getSessionDate() {
+    public Date getSessionDate() {
         return sessionDate;
     }
 
-    public void setSessionDate(int sessionDate) {
+    public void setSessionDate(Date sessionDate) {
         this.sessionDate = sessionDate;
     }
 
-    public Room getRoom() {
+    public String getRoom() {
         return room;
     }
 
-    public void setRoom(Room room) {
+    public void setRoom(String room) {
         this.room = room;
     }
 
-    public Lecture getLecture() {
-        return lecture;
+    public String getLectureId() {
+        return lectureId;
     }
 
-    public void setLecture(Lecture lecture) {
-        this.lecture = lecture;
+    public void setLectureId(String lectureId) {
+        this.lectureId = lectureId;
     }
+    
+
+    
     
     
 }
