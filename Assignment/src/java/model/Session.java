@@ -10,13 +10,22 @@ package model;
  */
 public class Session {
     private int id;
-    private String groupId;
+    private Group group;
     private int timeSlotId;
     private int sessionNo;
     private int sessionDate;
     private Room room;
     private Lecture lecture;
+    private boolean status;
 
+    public boolean isStatus() {
+        return status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
+    }
+    
     public int getId() {
         return id;
     }
@@ -25,13 +34,14 @@ public class Session {
         this.id = id;
     }
 
-    public String getGroupId() {
-        return groupId;
+    public Group getGroup() {
+        return group;
     }
 
-    public void setGroupId(String groupId) {
-        this.groupId = groupId;
+    public void setGroup(Group group) {
+        this.group = group;
     }
+
 
     public int getTimeSlotId() {
         return timeSlotId;
