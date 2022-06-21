@@ -11,16 +11,17 @@ import java.util.ArrayList;
  * @author win
  */
 public class GroupStudent {
-    private int groupId;
+    private Group group;
     private ArrayList<Student> students;
 
-    public int getGroupId() {
-        return groupId;
+    public Group getGroup() {
+        return group;
     }
 
-    public void setGroupId(int groupId) {
-        this.groupId = groupId;
+    public void setGroup(Group group) {
+        this.group = group;
     }
+
 
     public ArrayList<Student> getStudents() {
         return students;

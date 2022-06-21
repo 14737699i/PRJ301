@@ -9,17 +9,28 @@ package model;
  * @author win
  */
 public class Group {
-    private String id;
+    private int id;
+    private String groupName;
     private String courseId;
     private String lectureId;
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
+
+    public String getGroupName() {
+        return groupName;
+    }
+
+    public void setGroupName(String groupName) {
+        this.groupName = groupName;
+    }
+
+    
 
     public String getCourseId() {
         return courseId;
