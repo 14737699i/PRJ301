@@ -4,7 +4,6 @@
  */
 package model;
 
-import java.sql.Time;
 
 /**
  *
@@ -12,6 +11,7 @@ import java.sql.Time;
  */
 public class TimeSlot {
     private int id;
-    private Time startTime;
-    private Time endTime;
+    private String startTime;
+    private String endTime;
+    
 }
