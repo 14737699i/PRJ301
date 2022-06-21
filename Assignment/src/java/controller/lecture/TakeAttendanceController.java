@@ -12,6 +12,9 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.sql.Date;
+import java.util.ArrayList;
+import model.Session;
 
 /**
  *
@@ -54,7 +57,14 @@ public class TakeAttendanceController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        processRequest(request, response);
+       
+        Date currentDate = Date.valueOf("2022-04-13");
+        SessionDBContext sDB = new SessionDBContext();
+        String lectureId = "sonnt5";
+        ArrayList<Session> sessions = sDB.getByDate(currentDate, lectureId);
+        request.setAttribute("currentDate", currentDate);
+        request.setAttribute("sessions", sessions);
+        request.getRequestDispatcher("../view/lecture/takeattendance.jsp").forward(request, response);
         
     } 
 
