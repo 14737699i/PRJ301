@@ -6,11 +6,14 @@ package dal;
 
 import java.sql.Date;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import model.Group;
 import model.Session;
+import model.TimeSlot;
 
 /**
  *
@@ -18,7 +21,7 @@ import model.Session;
  */
 public class SessionDBContext extends DBContext<Session> {
 
-    public ArrayList<Session> getByDate(Date currentDate, String groupId) {
+    public ArrayList<Session> getByDate(Date currentDate, String lectureId) {
         ArrayList<Session> sessions = new ArrayList<>();
         try {
             String sql = "SELECT [ID]\n"
@@ -29,10 +32,31 @@ public class SessionDBContext extends DBContext<Session> {
                     + "      ,[Room]\n"
                     + "      ,[LectureID]\n"
                     + "      ,[Status]\n"
-                    + "  FROM [dbo].[Session]\n"
-                    + "WHERE [SessionDate] = '2022/04/13'";
+                    + "  FROM [Session]\n"
+                    + "WHERE [SessionDate] = ? AND LectureID = ?";
             PreparedStatement stm = connection.prepareStatement(sql);
-            stm.setString(0, sql);
+            stm.setString(1, currentDate.toString());
+            stm.setString(2, lectureId);
+            
+            ResultSet rs = stm.executeQuery();
+            
+            while(rs.next()){
+                Session s = new Session();
+                s.setId(rs.getInt("ID"));
+                GroupDBContext gDB = new GroupDBContext();
+                Group g = gDB.get(rs.getInt("GroupID"));
+                s.setGroup(g);
+                s.setTimeSlotId(rs.getInt("TimeSlotID"));
+                s.setSessionNo(rs.getInt("SessionNo"));
+                s.setSessionDate(rs.getDate("SessionDate"));
+                s.setRoom(rs.getString("Room"));
+                s.setLectureId(rs.getString("LectureID"));
+                s.setStatus(rs.getBoolean("Status"));
+                
+                sessions.add(s);
+            }
+            return sessions;
+            
         } catch (SQLException ex) {
             Logger.getLogger(SessionDBContext.class.getName()).log(Level.SEVERE, null, ex);
         }
