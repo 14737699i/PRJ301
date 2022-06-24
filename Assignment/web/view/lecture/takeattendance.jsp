@@ -13,7 +13,7 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <h3>Today(${requestScope.currentDate}) Class:</h3>
+        <h3>Today(${requestScope.currentDate}) class by ${requestScope.lectureId}</h3>
         <table>
             <tr>
                 <td>Slot</td>
@@ -26,10 +26,15 @@
                     <td>${s.timeSlotId}</td>
                     <td>${s.group.id}</td>
                     <td>${s.group.courseId}</td>
-                    
+                    <td>
+                        <form action="takeattendance" method="POST" >
+                            <input type="hidden" value="${s.id}" name="sid">
+                            <input type="submit" value="Edit"/>
+                        </form>
+                    </td>
                 </tr>
             </c:forEach> 
-            
+
         </table>
     </body>
 </html>

@@ -13,8 +13,8 @@ import java.sql.Date;
 public class Student {
     private int id;
     private String name;
-    private Date dob;
-    private boolean gender;
+//    private Date dob;
+//    private boolean gender;
 
     public int getId() {
         return id;
@@ -32,21 +32,6 @@ public class Student {
         this.name = name;
     }
 
-    public Date getDob() {
-        return dob;
-    }
-
-    public void setDob(Date dob) {
-        this.dob = dob;
-    }
-
-    public boolean isGender() {
-        return gender;
-    }
-
-    public void setGender(boolean gender) {
-        this.gender = gender;
-    }
     
     
 }

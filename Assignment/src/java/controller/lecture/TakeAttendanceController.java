@@ -5,6 +5,8 @@
 
 package controller.lecture;
 
+import dal.GroupDBContext;
+import dal.GroupStudentDBContext;
 import dal.SessionDBContext;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -14,7 +16,9 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.sql.Date;
 import java.util.ArrayList;
+import model.GroupStudent;
 import model.Session;
+import model.Student;
 
 /**
  *
@@ -57,13 +61,13 @@ public class TakeAttendanceController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-       
         Date currentDate = Date.valueOf("2022-04-13");
         SessionDBContext sDB = new SessionDBContext();
         String lectureId = "sonnt5";
         ArrayList<Session> sessions = sDB.getByDate(currentDate, lectureId);
         request.setAttribute("currentDate", currentDate);
         request.setAttribute("sessions", sessions);
+        request.setAttribute("lectureId", lectureId);
         request.getRequestDispatcher("../view/lecture/takeattendance.jsp").forward(request, response);
         
     } 
@@ -78,7 +82,14 @@ public class TakeAttendanceController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        processRequest(request, response);
+        SessionDBContext sDB = new SessionDBContext();
+        Session s = sDB.get(Integer.parseInt(request.getParameter("sid")));
+        GroupStudentDBContext gsDB = new GroupStudentDBContext();
+        ArrayList<Student> students = gsDB.getStudentsByGroup(s.getGroup().getId());
+        request.setAttribute("session", s);
+        request.setAttribute("students", students);
+        request.getRequestDispatcher("../view/lecture/attendancereport.jsp").forward(request, response);
+                
     }
 
     /** 
@@ -89,5 +100,5 @@ public class TakeAttendanceController extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-
+    
 }
