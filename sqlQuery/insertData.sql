@@ -15,14 +15,18 @@ INSERT INTO [dbo].[Student]
 SET @INDEX = @INDEX + 1;
 END
 
---Add unique key constrain to Sesion (<Timeslot+SessionDate+Room> must be unique)
+--Add unique key constrain to Session (<GroupID+SessionNo> and <TimeSlot + SessionDate + Room> must be unique)
+
 ALTER TABLE [Session]
-ADD CONSTRAINT UC_Session UNIQUE (TimeSlotID, SessionDate, Room)
+ADD CONSTRAINT UC_SessionNoOfGroup UNIQUE (GroupID, SessionNo)
+
+ALTER TABLE [Session]
+ADD CONSTRAINT UC_SpaceTime UNIQUE (TimeSlotID, SessionDate, Room)
+
 
 --Add session to Session table
 
-
-declare @index_group int = 1
+/*declare @index_group int = 1
 
 while(@index_group<=(select Count(ID) from [Group]))
 BEGIN
@@ -62,8 +66,266 @@ BEGIN
 	delete #temp_group
 
 	SET @index_group = @index_group + 1;
-END
+END*/
 
 
+ -- 1. Add session for groupID = 1, <SE1623, PRJ301, sonnt5, slot 5-2,4,6>
+	-- session for slot 5-2
+	declare @index_session int = 1
+	declare @index_sessionNo int = 1
+	declare @date date = '2022-05-09'
 
+	WHILE(@index_session <= 10)
+	BEGIN
+	INSERT INTO [dbo].[Session]
+			   ([GroupID]
+			   ,[TimeSlotID]
+			   ,[SessionNo]
+			   ,[SessionDate]
+			   ,[Room]
+			   ,[LectureID]
+			   ,[Status])
+		 VALUES
+			   (1
+			   ,5
+			   ,@index_sessionNo
+			   ,@date
+			   ,'DE-C202'
+			   ,'sonnt5'
+			   ,0)
 
+	SET @index_session = @index_session + 1;
+	SET @index_sessionNo = @index_sessionNo + 3;
+	SET @date = DATEADD(day, 7, @date)
+	END
+	-- session for slot 5-3 
+	declare @index_session int = 1
+	declare @index_sessionNo int = 2
+	declare @date date = '2022-05-11'
+
+	WHILE(@index_session <= 10)
+	BEGIN
+	INSERT INTO [dbo].[Session]
+			   ([GroupID]
+			   ,[TimeSlotID]
+			   ,[SessionNo]
+			   ,[SessionDate]
+			   ,[Room]
+			   ,[LectureID]
+			   ,[Status])
+		 VALUES
+			   (1
+			   ,5
+			   ,@index_sessionNo
+			   ,@date
+			   ,'DE-C202'
+			   ,'sonnt5'
+			   ,0)
+
+	SET @index_session = @index_session + 1;
+	SET @index_sessionNo = @index_sessionNo + 3;
+	SET @date = DATEADD(day, 7, @date)
+	END
+
+	-- session for slot 5-5 
+	declare @index_session int = 1
+	declare @index_sessionNo int = 3
+	declare @date date = '2022-05-13'
+
+	WHILE(@index_session <= 9)
+	BEGIN
+	INSERT INTO [dbo].[Session]
+			   ([GroupID]
+			   ,[TimeSlotID]
+			   ,[SessionNo]
+			   ,[SessionDate]
+			   ,[Room]
+			   ,[LectureID]
+			   ,[Status])
+		 VALUES
+			   (1
+			   ,5
+			   ,@index_sessionNo
+			   ,@date
+			   ,'DE-C202'
+			   ,'sonnt5'
+			   ,0)
+
+	SET @index_session = @index_session + 1;
+	SET @index_sessionNo = @index_sessionNo + 3;
+	SET @date = DATEADD(day, 7, @date)
+	END
+
+ -- 2. Add session for groupID = 6, <SE1627, PRJ301, sonnt5, slot 1-2,4,6>
+	-- session for slot 1-2
+	declare @index_session int = 1
+	declare @index_sessionNo int = 1
+	declare @date date = '2022-05-09'
+
+	WHILE(@index_session <= 10)
+	BEGIN
+	INSERT INTO [dbo].[Session]
+			   ([GroupID]
+			   ,[TimeSlotID]
+			   ,[SessionNo]
+			   ,[SessionDate]
+			   ,[Room]
+			   ,[LectureID]
+			   ,[Status])
+		 VALUES
+			   (1
+			   ,1
+			   ,@index_sessionNo
+			   ,@date
+			   ,'DE-C202'
+			   ,'sonnt5'
+			   ,0)
+
+	SET @index_session = @index_session + 1;
+	SET @index_sessionNo = @index_sessionNo + 3;
+	SET @date = DATEADD(day, 7, @date)
+	END
+	-- session for slot 1-3 
+	declare @index_session int = 1
+	declare @index_sessionNo int = 2
+	declare @date date = '2022-05-11'
+
+	WHILE(@index_session <= 10)
+	BEGIN
+	INSERT INTO [dbo].[Session]
+			   ([GroupID]
+			   ,[TimeSlotID]
+			   ,[SessionNo]
+			   ,[SessionDate]
+			   ,[Room]
+			   ,[LectureID]
+			   ,[Status])
+		 VALUES
+			   (1
+			   ,1
+			   ,@index_sessionNo
+			   ,@date
+			   ,'DE-C202'
+			   ,'sonnt5'
+			   ,0)
+
+	SET @index_session = @index_session + 1;
+	SET @index_sessionNo = @index_sessionNo + 3;
+	SET @date = DATEADD(day, 7, @date)
+	END
+
+	-- session for slot 1-5 
+	declare @index_session int = 1
+	declare @index_sessionNo int = 3
+	declare @date date = '2022-05-13'
+
+	WHILE(@index_session <= 9)
+	BEGIN
+	INSERT INTO [dbo].[Session]
+			   ([GroupID]
+			   ,[TimeSlotID]
+			   ,[SessionNo]
+			   ,[SessionDate]
+			   ,[Room]
+			   ,[LectureID]
+			   ,[Status])
+		 VALUES
+			   (1
+			   ,1
+			   ,@index_sessionNo
+			   ,@date
+			   ,'DE-C202'
+			   ,'sonnt5'
+			   ,0)
+
+	SET @index_session = @index_session + 1;
+	SET @index_sessionNo = @index_sessionNo + 3;
+	SET @date = DATEADD(day, 7, @date)
+	END
+
+-- 3. Add session for groupID = 8, <SE1654, DBI202, sonnt5, slot 2-2,4,6>
+-- session for slot 2-2
+	declare @index_session int = 1
+	declare @index_sessionNo int = 1
+	declare @date date = '2022-05-09'
+
+	WHILE(@index_session <= 10)
+	BEGIN
+	INSERT INTO [dbo].[Session]
+			   ([GroupID]
+			   ,[TimeSlotID]
+			   ,[SessionNo]
+			   ,[SessionDate]
+			   ,[Room]
+			   ,[LectureID]
+			   ,[Status])
+		 VALUES
+			   (8
+			   ,2
+			   ,@index_sessionNo
+			   ,@date
+			   ,'DE-C203'
+			   ,'sonnt5'
+			   ,0)
+
+	SET @index_session = @index_session + 1;
+	SET @index_sessionNo = @index_sessionNo + 3;
+	SET @date = DATEADD(day, 7, @date)
+	END
+	-- session for slot 2-3 
+	declare @index_session int = 1
+	declare @index_sessionNo int = 2
+	declare @date date = '2022-05-11'
+
+	WHILE(@index_session <= 10)
+	BEGIN
+	INSERT INTO [dbo].[Session]
+			   ([GroupID]
+			   ,[TimeSlotID]
+			   ,[SessionNo]
+			   ,[SessionDate]
+			   ,[Room]
+			   ,[LectureID]
+			   ,[Status])
+		 VALUES
+			   (8
+			   ,2
+			   ,@index_sessionNo
+			   ,@date
+			   ,'DE-C203'
+			   ,'sonnt5'
+			   ,0)
+
+	SET @index_session = @index_session + 1;
+	SET @index_sessionNo = @index_sessionNo + 3;
+	SET @date = DATEADD(day, 7, @date)
+	END
+
+	-- session for slot 2-5 
+	declare @index_session int = 1
+	declare @index_sessionNo int = 3
+	declare @date date = '2022-05-13'
+
+	WHILE(@index_session <= 9)
+	BEGIN
+	INSERT INTO [dbo].[Session]
+			   ([GroupID]
+			   ,[TimeSlotID]
+			   ,[SessionNo]
+			   ,[SessionDate]
+			   ,[Room]
+			   ,[LectureID]
+			   ,[Status])
+		 VALUES
+			   (8
+			   ,2
+			   ,@index_sessionNo
+			   ,@date
+			   ,'DE-C203'
+			   ,'sonnt5'
+			   ,0)
+
+	SET @index_session = @index_session + 1;
+	SET @index_sessionNo = @index_sessionNo + 3;
+	SET @date = DATEADD(day, 7, @date)
+	END
