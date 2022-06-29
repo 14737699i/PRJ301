@@ -22,15 +22,17 @@
                 <td>Name</td>
                 <td>Status</td>
                 <td>Comment</td>
-                
+            <c:set var="index" value="${1}"></c:set> 
             <c:forEach items= "${requestScope.students}" var="s"> 
                 <tr>
-                    <td>${requestScope.session.sessionNo}</td>
+                    
+                    <td>${index}</td>
                     <td>${requestScope.session.group.groupName}</td>
                     <td>${s.id}</td>
                     <td>${s.name}</td>
-                    <td><input type="radio" name="Present"> <input type="radio" name="Absent"> </td>
+                    <td><input type="radio" value="true" name="status_${s.id}">Present <input checked="checked" type="radio" value="false" name="status_${s.id}">Absent </td>
                     <td><input type="text"> </td>
+                    <c:set var="index" value="${index+1}"></c:set> 
                 </tr>
             </c:forEach>
         </tr> <br>

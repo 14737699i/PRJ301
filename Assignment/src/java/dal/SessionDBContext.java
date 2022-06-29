@@ -34,6 +34,7 @@ public class SessionDBContext extends DBContext<Session> {
                     + "      ,[Status]\n"
                     + "  FROM [Session]\n"
                     + "WHERE [SessionDate] = ? AND LectureID = ?";
+                    
             PreparedStatement stm = connection.prepareStatement(sql);
             stm.setString(1, currentDate.toString());
             stm.setString(2, lectureId);
