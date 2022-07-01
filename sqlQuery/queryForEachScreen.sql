@@ -39,14 +39,19 @@ where ID = 64
 
 
 --Weekly TimeTable
-select s.id, s.GroupID,g.GroupName, g.CourseID, s.TimeSlotID, s.SessionNo, s.SessionDate, s.Room, s.LectureID, s.Status, t.StartTime, t.EndTime
-from Session as s Inner join [Group] as g 
-on s.GroupID = g.ID and s.LectureID='sonnt5'
-Inner join TimeSlot as t
-on s.TimeSlotID = t.ID
-where s.SessionDate >= '2022-05-09' AND s.SessionDate<= '2022-05-15'
-order by s.SessionDate
+	select s.id, s.GroupID,g.GroupName, g.CourseID, s.TimeSlotID, s.SessionNo, s.SessionDate, s.Room, s.LectureID, s.Status
+	from Session as s Inner join [Group] as g 
+	on s.GroupID = g.ID and s.LectureID='sonnt5'
+	where s.SessionDate >= '2022-05-09' AND s.SessionDate<= '2022-05-15'
+	order by s.SessionDate, TimeSlotID
 
+--select s.id, s.GroupID,g.GroupName, g.CourseID, s.TimeSlotID, s.SessionNo, s.SessionDate, s.Room, s.LectureID, s.Status, t.StartTime, t.EndTime
+--from Session as s Inner join [Group] as g 
+--on s.GroupID = g.ID and s.LectureID='sonnt5'
+--Inner join TimeSlot as t
+--on s.TimeSlotID = t.ID
+--where s.SessionDate >= '2022-05-09' AND s.SessionDate<= '2022-05-15'
+--order by s.SessionDate
 --Attandance Report
 
 select g.id, g.GroupName, g.CourseID, c.CourseName from [Group] as g inner join Course as c 
