@@ -33,8 +33,9 @@ public class SessionDBContext extends DBContext<Session> {
                     + "      ,[LectureID]\n"
                     + "      ,[Status]\n"
                     + "  FROM [Session]\n"
-                    + "WHERE [SessionDate] = ? AND LectureID = ?";
-                    
+                    + "WHERE [SessionDate] = ? AND LectureID = ?\n"
+                    + "ORDER BY TimeSlotID ";
+
             PreparedStatement stm = connection.prepareStatement(sql);
             stm.setString(1, currentDate.toString());
             stm.setString(2, lectureId);
@@ -46,6 +47,49 @@ public class SessionDBContext extends DBContext<Session> {
                 s.setId(rs.getInt("ID"));
                 GroupDBContext gDB = new GroupDBContext();
                 Group g = gDB.get(rs.getInt("GroupID"));
+                s.setGroup(g);
+                s.setTimeSlotId(rs.getInt("TimeSlotID"));
+                s.setSessionNo(rs.getInt("SessionNo"));
+                s.setSessionDate(rs.getDate("SessionDate"));
+                s.setRoom(rs.getString("Room"));
+                s.setLectureId(rs.getString("LectureID"));
+                s.setStatus(rs.getBoolean("Status"));
+
+                sessions.add(s);
+            }
+            return sessions;
+
+        } catch (SQLException ex) {
+            Logger.getLogger(SessionDBContext.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return sessions;
+    }
+
+    public ArrayList<Session> getByDate(Date fromDate, Date toDate, String lectureId) {
+        ArrayList<Session> sessions = new ArrayList<>();
+        try {
+            String sql = "select s.id, s.GroupID, g.GroupName, g.CourseID, s.TimeSlotID, s.SessionNo, s.SessionDate, s.Room, s.LectureID, s.Status\n"
+                    + "from Session as s Inner join [Group] as g \n"
+                    + "on s.GroupID = g.ID and s.LectureID=?\n"
+                    + "where s.SessionDate >= ? AND s.SessionDate<= ?\n"
+                    + "order by s.SessionDate, TimeSlotID";
+
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setString(1, lectureId);
+            stm.setDate(2, fromDate);
+            stm.setDate(3, toDate);
+
+            ResultSet rs = stm.executeQuery();
+
+            while (rs.next()) {
+                Session s = new Session();
+                s.setId(rs.getInt("ID"));
+                Group g = new Group();
+                g.setId(rs.getInt("GroupID"));
+                g.setGroupName(rs.getString("GroupName"));
+                g.setCourseId(rs.getString("CourseID"));
+                g.setLectureId(rs.getString("LectureID"));
+
                 s.setGroup(g);
                 s.setTimeSlotId(rs.getInt("TimeSlotID"));
                 s.setSessionNo(rs.getInt("SessionNo"));
@@ -97,7 +141,7 @@ public class SessionDBContext extends DBContext<Session> {
                 s.setRoom(rs.getString("Room"));
                 s.setLectureId(rs.getString("LectureID"));
                 s.setStatus(rs.getBoolean("Status"));
-                
+
                 return s;
             }
 

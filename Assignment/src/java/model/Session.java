@@ -10,7 +10,7 @@ import java.sql.Date;
  *
  * @author win
  */
-public class Session {
+public class Session{
     private int id;
     private Group group;
     private int timeSlotId;
@@ -84,9 +84,6 @@ public class Session {
     public void setLectureId(String lectureId) {
         this.lectureId = lectureId;
     }
-    
 
-    
-    
-    
+ 
 }
