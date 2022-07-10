@@ -16,18 +16,27 @@
     <body>
         <table>
             <tr>
-                <td>
-                    WEEK
-                </td>
-                <td>MON</td>
-                <td>TUE</td>
-                <td>WED</td>
-                <td>THU</td>
-                <td>FRI</td>
-                <td>SAT</td>
-                <td>SUN</td>
+                <th rowspan="2">
+                    WEEK 
+                </th>
+                <th>MON</th>
+                <th>TUE</th>
+                <th>WED</th>
+                <th>THU</th>
+                <th>FRI</th>
+                <th>SAT</th>
+                <th>SUN</th>
             </tr>
+            <tr>
+                <th>MON</th>
+                <th>TUE</th>
+                <th>WED</th>
+                <th>THU</th>
+                <th>FRI</th>
+                <th>SAT</th>
+                <th>SUN</th>
 
+            </tr>
             <tbody>
                 <c:forEach var = "i" begin = "1" end = "8">
                     <tr>

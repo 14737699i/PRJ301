@@ -18,6 +18,32 @@ import model.Group;
  */
 public class GroupDBContext extends DBContext<Group> {
 
+    public ArrayList<Group> getByLecture(String lectureId) {
+        ArrayList<Group> groups = new ArrayList<>();
+        
+        try {
+            String sql = "select ID, GroupName, CourseID, LectureID from [Group]\n"
+                    + "where lectureID = ?";
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setString(1, lectureId);
+            ResultSet rs = stm.executeQuery();
+
+            while (rs.next()) {
+                Group g = new Group();
+                g.setId(rs.getInt("ID"));
+                g.setGroupName(rs.getString("GroupName"));
+                g.setCourseId(rs.getString("CourseID"));
+                g.setLectureId(rs.getString("LectureID"));
+                groups.add(g);
+            }
+            return groups;
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(GroupDBContext.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return groups;
+    }
+
     @Override
     public ArrayList<Group> list() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
@@ -35,17 +61,17 @@ public class GroupDBContext extends DBContext<Group> {
             PreparedStatement stm = connection.prepareStatement(sql);
             stm.setInt(1, id);
             ResultSet rs = stm.executeQuery();
-            
-            while(rs.next()){
+
+            while (rs.next()) {
                 Group g = new Group();
                 g.setId(rs.getInt("ID"));
                 g.setGroupName(rs.getString("GroupName"));
                 g.setCourseId(rs.getString("CourseID"));
                 g.setLectureId(rs.getString("LectureID"));
                 return g;
-               
+
             }
-           
+
         } catch (SQLException ex) {
             Logger.getLogger(GroupDBContext.class.getName()).log(Level.SEVERE, null, ex);
         }

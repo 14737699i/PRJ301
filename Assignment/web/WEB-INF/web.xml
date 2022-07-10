@@ -4,9 +4,17 @@
         <servlet-name>TakeAttendanceController</servlet-name>
         <servlet-class>controller.lecture.TakeAttendanceController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>GroupAttendanceController</servlet-name>
+        <servlet-class>controller.lecture.GroupAttendanceController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>TakeAttendanceController</servlet-name>
         <url-pattern>/view/takeattendance</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>GroupAttendanceController</servlet-name>
+        <url-pattern>/view/groupattendance</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
