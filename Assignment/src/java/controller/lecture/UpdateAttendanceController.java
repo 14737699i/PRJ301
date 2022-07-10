@@ -5,30 +5,18 @@
 
 package controller.lecture;
 
-import dal.AttendanceReportDBContext;
-import dal.GroupDBContext;
-import dal.GroupStudentDBContext;
-import dal.SessionDBContext;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import model.AttendanceReport;
-import model.GroupStudent;
-import model.Session;
-import model.Student;
 
 /**
  *
  * @author win
  */
-public class TakeAttendanceController extends HttpServlet {
+public class UpdateAttendanceController extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -45,10 +33,10 @@ public class TakeAttendanceController extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet TakeAttendanceController</title>");  
+            out.println("<title>Servlet UpdateAttendanceController</title>");  
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet TakeAttendanceController at " + request.getContextPath () + "</h1>");
+            out.println("<h1>Servlet UpdateAttendanceController at " + request.getContextPath () + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -65,21 +53,7 @@ public class TakeAttendanceController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        Date currentDate = Date.valueOf("2022-05-09");
-        SessionDBContext sDB = new SessionDBContext();
-        String lectureId = "sonnt5";
-        ArrayList<Session> sessions = sDB.getByDate(currentDate, lectureId);
-//        Collections.sort(sessions, new Comparator<Session>() {
-//            @Override
-//            public int compare(Session o1, Session o2) {
-//                return o1.getTimeSlotId() - o2.getTimeSlotId();
-//            }
-//        });
-        request.setAttribute("currentDate", currentDate);
-        request.setAttribute("sessions", sessions);
-        request.setAttribute("lectureId", lectureId);
-        request.getRequestDispatcher("../view/lecture/takeattendance.jsp").forward(request, response);
-        
+        processRequest(request, response);
     } 
 
     /** 
@@ -92,22 +66,7 @@ public class TakeAttendanceController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        SessionDBContext sDB = new SessionDBContext();
-        Session s = sDB.get(Integer.parseInt(request.getParameter("sid")));
-        
-        if(s.isStatus()){
-            AttendanceReportDBContext arDB = new AttendanceReportDBContext();
-           ArrayList<AttendanceReport> ars = arDB.getBySession(s.getId());
-           request.setAttribute("ars", ars);
-        } else {
-            GroupStudentDBContext gsDB = new GroupStudentDBContext();
-            ArrayList<Student> students = gsDB.getStudentsByGroup(s.getGroup().getId());
-            request.setAttribute("students", students);
-        }
-        
-        request.setAttribute("session", s);
-        request.getRequestDispatcher("../view/lecture/attendancereport.jsp").forward(request, response);
-        
+        processRequest(request, response);
     }
 
     /** 
@@ -118,5 +77,5 @@ public class TakeAttendanceController extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-    
+
 }

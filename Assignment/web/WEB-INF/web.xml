@@ -8,6 +8,18 @@
         <servlet-name>GroupAttendanceController</servlet-name>
         <servlet-class>controller.lecture.GroupAttendanceController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>TimeTableController</servlet-name>
+        <servlet-class>controller.lecture.TimeTableController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UpdateAttendanceController</servlet-name>
+        <servlet-class>controller.lecture.UpdateAttendanceController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>InsertAttendanceController</servlet-name>
+        <servlet-class>controller.lecture.InsertAttendanceController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>TakeAttendanceController</servlet-name>
         <url-pattern>/view/takeattendance</url-pattern>
@@ -15,6 +27,18 @@
     <servlet-mapping>
         <servlet-name>GroupAttendanceController</servlet-name>
         <url-pattern>/view/groupattendance</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>TimeTableController</servlet-name>
+        <url-pattern>/view/timetable</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UpdateAttendanceController</servlet-name>
+        <url-pattern>/view/update</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>InsertAttendanceController</servlet-name>
+        <url-pattern>/view/insert</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
