@@ -17,65 +17,75 @@
         <h2>Attendance for ${requestScope.session.group.groupName} at Slot ${requestScope.session.sessionNo} on ${requestScope.session.sessionDate} in ${requestScope.session.room}</h2>
 
         <c:if test="${requestScope.session.status eq true}">
-            <table>
-                <tr>
-                    <td>No</td>
-                    <td>Group</td>
-                    <td>Code</td>
-                    <td>Name</td>
-                    <td>Status</td>
-                    <td>Comment</td>
-                    <c:set var="index" value="${1}"></c:set> 
-                    <c:forEach items= "${requestScope.ars}" var="a"> 
+            <form id="formUpdate" action= "update" method="POST">
+                <h3>${requestScope.session.id}</h3>
+                <h3>${requestScope.session.status}</h3>
+                <input type="hidden" name="sessionId" value="${requestScope.session.id}">
+                <table>
                     <tr>
-                        <td>${index}</td>
+                        <td>No</td>
+                        <td>Group</td>
+                        <td>Code</td>
+                        <td>Name</td>
+                        <td>Status</td>
+                        <td>Comment</td>
+                        <c:set var="index" value="${1}"></c:set> 
+                        <c:forEach items= "${requestScope.ars}" var="a"> 
+                        <tr>
+                            <td><input type="hidden" name="index" value="${index}"> ${index}</td>
+                            <input type="hidden" name="a.id_${index}" value="${a.id}">
+                            <td>${requestScope.session.group.groupName}</td>
+                            <td><input type="hidden" name="sId_${index}" value="${a.student.id}">${a.student.id}</td>
+                            <td><input type="hidden" name="sName_${index}" value="${a.student.name}">${a.student.name}</td>
+                            <td>
+                                <input <c:if test="${a.status eq true}"> checked="checked" </c:if>< type="radio" value="true" name="status_${index}">Present 
+                                <input <c:if test="${a.status eq false}"> checked="checked" </c:if> type="radio" value="false" name="status_${index}">Absent 
+                                </td>
+                                <td><input type="text" name="comment_${index}"> </td>
+                                <c:set var="index" value="${index+1}"></c:set> 
+                            </tr>
+                    </c:forEach>
+                    </tr> <br>
+                </table>
+                <input type="submit" value="Save"/>
+            </form>
+        </c:if>
+
+
+        <c:if test="${requestScope.session.status eq false}">
+            <h3>${requestScope.session.id}</h3>
+            <h3>${requestScope.session.status}</h3>
+            <form id="formInsert" action= "insert" method="POST">
+                <input type="hidden" name="sessionId" value="${requestScope.session.id}">
+                <table>
+                    <tr>
+                        <td>No</td>
+                        <td>Group</td>
+                        <td>Code</td>
+                        <td>Name</td>
+                        <td>Status</td>
+                        <td>Comment</td>
+                        <c:set var="index" value="${1}"></c:set> 
+                        <c:forEach items= "${requestScope.students}" var="s"> 
+                        <tr>
+                        <input type="hidden" value="${requestScope.session.sessionNo}}">
+                        <td><input type="hidden" name="index" value="${index}">${index}</td>
                         <td>${requestScope.session.group.groupName}</td>
-                        <td>${ars.student.id}</td>
-                        <td>${ars.student.name}</td>
-                        <td>
-                            <input <c:if test="${ars.status eq true}"> checked="checked" </c:if>< type="radio" value="true" name="status_${s.id}">Present 
-                            <input <c:if test="${ars.status eq false}"> checked="checked" </c:if> type="radio" value="false" name="status_${s.id}">Absent 
-                            </td>
-                            <td><input type="text">${ars.comment} </td>
+                        <td><input type="hidden" name="sId_${index}" value="${s.id}">${s.id}</td>
+                        <td><input type="hidden" name="sName_${index}" value="${s.name}">${s.name}</td>
+                        <td><input type="radio" value="true" name="status_${index}">Present <input checked="checked" type="radio" value="false" name="status_${index}">Absent </td>
+                        <td><input type="text" name="comment_${index}"> </td>
                             <c:set var="index" value="${index+1}"></c:set> 
-                        </tr>
-                </c:forEach>
-            </tr> <br>
-        </table>
-    </c:if>
+                            </tr>
+                    </c:forEach>
+                    </tr> <br>
 
-
-    <c:if test="${requestScope.session.status eq false}">
-        <form id="formSearch" action= "insert" method="POST">
-            <table>
-                <tr>
-                    <td>No</td>
-                    <td>Group</td>
-                    <td>Code</td>
-                    <td>Name</td>
-                    <td>Status</td>
-                    <td>Comment</td>
-                    <c:set var="index" value="${1}"></c:set> 
-                    <c:forEach items= "${requestScope.students}" var="s"> 
-                    <tr>
-                    <input type="hidden" value="${requestScope.session.sessionNo}}">
-                    <td>${index}</td>
-                    <td>${requestScope.session.group.groupName}</td>
-                    <td>${s.id}</td>
-                    <td>${s.name}</td>
-                    <td><input type="radio" value="true" name="status_${s.id}">Present <input checked="checked" type="radio" value="false" name="status_${s.id}">Absent </td>
-                    <td><input type="text"> </td>
-                        <c:set var="index" value="${index+1}"></c:set> 
-                        </tr>
-                </c:forEach>
-                </tr> <br>
-
-            </table>
-            <input type="submit" value="Save"/>
-        </form>
-    </c:if>
+                </table>
+                <input type="submit" value="Save"/>
+            </form>
+        </c:if>
 
 
 
-</body>
+    </body>
 </html>

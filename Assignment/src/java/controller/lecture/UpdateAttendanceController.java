@@ -5,12 +5,18 @@
 
 package controller.lecture;
 
+import dal.AttendanceReportDBContext;
+import dal.SessionDBContext;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.sql.Date;
+import java.time.LocalDate;
+import model.AttendanceReport;
+import model.Student;
 
 /**
  *
@@ -66,7 +72,29 @@ public class UpdateAttendanceController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        processRequest(request, response);
+        
+        //processRequest(request, response);
+//        SessionDBContext sDB = new SessionDBContext();
+        String[] index = request.getParameterValues("index");
+        int sId = Integer.parseInt(request.getParameter("sessionId")); 
+        for (String i : index) {
+            
+            AttendanceReport ar = new AttendanceReport();
+            ar.setId(Integer.parseInt(request.getParameter("a.id_"+ i)));
+            ar.setSessionId(sId);
+            Student s = new Student();
+            s.setId(Integer.parseInt(request.getParameter("sId_"+i)));
+            s.setName(request.getParameter("sName_"+ i));
+            ar.setStudent(s);
+            ar.setStatus(Boolean.parseBoolean(request.getParameter("status_"+ i)));
+            ar.setComment(request.getParameter("comment_"+ i));
+            response.getWriter().println( ar.getComment());
+            ar.setRecordTime(Date.valueOf(LocalDate.now()));
+            AttendanceReportDBContext arDB = new AttendanceReportDBContext();
+            arDB.update(ar);
+            
+        }
+        
     }
 
     /** 

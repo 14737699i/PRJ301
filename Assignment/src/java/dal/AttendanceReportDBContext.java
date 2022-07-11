@@ -48,9 +48,9 @@ public class AttendanceReportDBContext extends DBContext<AttendanceReport> {
                 ar.setComment(rs.getString("Comment"));
                 ar.setRecordTime(rs.getDate("RecordTime"));
                 ars.add(ar);
-                }
+            }
             return ars;
-            
+
         } catch (SQLException ex) {
             Logger.getLogger(AttendanceReportDBContext.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -69,12 +69,56 @@ public class AttendanceReportDBContext extends DBContext<AttendanceReport> {
 
     @Override
     public void insert(AttendanceReport model) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        try {
+            String sql = "INSERT INTO [AttendanceReport]\n"
+                    + "           ([SessionID]\n"
+                    + "           ,[StudentID]\n"
+                    + "           ,[StudentName]\n"
+                    + "           ,[Status]\n"
+                    + "           ,[Comment]\n"
+                    + "           ,[RecordTime])\n"
+                    + "     VALUES\n"
+                    + "           (?\n"
+                    + "           ,?\n"
+                    + "           ,?\n"
+                    + "           ,?\n"
+                    + "           ,?\n"
+                    + "           ,?)";
+
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setInt(1, model.getSessionId());
+            stm.setInt(2, model.getStudent().getId());
+            stm.setString(3, model.getStudent().getName());
+            stm.setBoolean(4, model.isStatus());
+            stm.setString(5, model.getComment());
+            stm.setDate(6, model.getRecordTime());
+
+            stm.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(AttendanceReportDBContext.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @Override
     public void update(AttendanceReport model) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        try {
+            String sql = "UPDATE [dbo].[AttendanceReport]\n"
+                    + "   SET \n"
+                    + "	   [Status] = ?\n"
+                    + "      ,[Comment] = ?\n"
+                    + "      ,[RecordTime] = ?\n"
+                    + " WHERE ID = ?";
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setBoolean(1, model.isStatus());
+            stm.setString(2, model.getComment());
+            stm.setDate(3, model.getRecordTime());
+            stm.setInt(4, model.getId());
+            
+            stm.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(AttendanceReportDBContext.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
     }
 
     @Override

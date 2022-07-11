@@ -21,6 +21,20 @@ import model.TimeSlot;
  */
 public class SessionDBContext extends DBContext<Session> {
 
+    public void updateStatus(int id) {
+        try {
+            String sql = "UPDATE [dbo].[Session]\n"
+                    + "   SET \n"
+                    + "      [Status] = 1\n"
+                    + " WHERE ID = ?";
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setInt(1, id);
+            stm.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(SessionDBContext.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
     public ArrayList<Session> getByDate(Date currentDate, String lectureId) {
         ArrayList<Session> sessions = new ArrayList<>();
         try {
