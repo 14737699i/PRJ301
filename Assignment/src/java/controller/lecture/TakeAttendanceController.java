@@ -65,7 +65,7 @@ public class TakeAttendanceController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        Date currentDate = Date.valueOf("2022-05-09");
+        Date currentDate = Date.valueOf("2022-07-04");
         SessionDBContext sDB = new SessionDBContext();
         String lectureId = "sonnt5";
         ArrayList<Session> sessions = sDB.getByDate(currentDate, lectureId);

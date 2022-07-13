@@ -12,12 +12,25 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
         <link href="../css/style.css" rel="stylesheet" type="text/css"/>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     </head>
     <body>
+
         <table>
             <tr>
                 <th rowspan="2">
-                    WEEK 
+                    YEAR
+                    <select>
+                        <option> 2022</option> 
+                    </select> <br>
+
+                    WEEK   
+                    <select>
+                    <c:forEach items="${requestScope.weeks}" var="w">
+                        <option> ${w}</option>
+                    </c:forEach>
+                    </select>
+
                 </th>
                 <th>MON</th>
                 <th>TUE</th>
@@ -28,13 +41,9 @@
                 <th>SUN</th>
             </tr>
             <tr>
-                <th>MON</th>
-                <th>TUE</th>
-                <th>WED</th>
-                <th>THU</th>
-                <th>FRI</th>
-                <th>SAT</th>
-                <th>SUN</th>
+                <c:forEach items ="${requestScope.dates}" var = "date">
+                    <th>${date}</th>
+                </c:forEach>
 
             </tr>
             <tbody>
