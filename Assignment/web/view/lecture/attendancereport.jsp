@@ -18,8 +18,8 @@
 
         <c:if test="${requestScope.session.status eq true}">
             <form id="formUpdate" action= "update" method="POST">
-                <h3>${requestScope.session.id}</h3>
-                <h3>${requestScope.session.status}</h3>
+<!--                <h3>${requestScope.session.id}</h3>
+                <h3>${requestScope.session.status}</h3>-->
                 <input type="hidden" name="sessionId" value="${requestScope.session.id}">
                 <table>
                     <tr>

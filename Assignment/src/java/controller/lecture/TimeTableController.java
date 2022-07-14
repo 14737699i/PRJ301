@@ -13,6 +13,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.sql.Date;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -21,6 +22,8 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import static java.time.temporal.TemporalAdjusters.firstInMonth;
 import java.util.Calendar;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -70,7 +73,10 @@ public class TimeTableController extends HttpServlet {
         SessionDBContext sDB = new SessionDBContext();
         String lectureId = "sonnt5";
         SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
+        Date chooseDate = new Date(System.currentTimeMillis());
+        //chooseDate = format1.parse(chooseDate.toString());
         Calendar c = Calendar.getInstance();
+        
         c.setFirstDayOfWeek(Calendar.MONDAY);
         c.set(Calendar.DAY_OF_WEEK, c.getFirstDayOfWeek());
         ArrayList<Date> dates = new ArrayList<>();  
@@ -78,22 +84,23 @@ public class TimeTableController extends HttpServlet {
             dates.add(Date.valueOf(format1.format(c.getTime())));
             c.add(Calendar.DAY_OF_WEEK, 1);
         }
-        Calendar cal = Calendar.getInstance();
-        cal.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
-        cal.set(Calendar.DAY_OF_WEEK_IN_MONTH, 1);
-        cal.set(Calendar.MONTH, 0);
-        cal.set(Calendar.YEAR, 2022);
-        
-        ArrayList<Date> weeks = new ArrayList<>();
-        for (int i = 0; i < 52; i++) {
-            weeks.add(Date.valueOf(format1.format(cal.getTime())));
-            cal.add(Calendar.DAY_OF_WEEK, 7);
-        }
+//        Calendar cal = Calendar.getInstance();
+//        cal.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+//        cal.set(Calendar.DAY_OF_WEEK_IN_MONTH, 1);
+//        cal.set(Calendar.MONTH, 0);
+//        cal.set(Calendar.YEAR, 2022);
+//        
+//        ArrayList<Date> weeks = new ArrayList<>();
+//        for (int i = 0; i < 52; i++) {
+//            weeks.add(Date.valueOf(format1.format(cal.getTime())));
+//            cal.add(Calendar.DAY_OF_WEEK, 7);
+//        }
         
         ArrayList<Session> sessions = sDB.getByDate(dates.get(0), dates.get(dates.size() - 1), lectureId);
+        request.setAttribute("chooseDate", chooseDate.toString());
         request.setAttribute("sessions", sessions);
         request.setAttribute("dates", dates);
-        request.setAttribute("weeks", weeks);
+        //request.setAttribute("weeks", weeks);
         request.setAttribute("lectureId", lectureId);
         request.getRequestDispatcher("../view/lecture/timetable.jsp").forward(request, response);
     }
@@ -109,7 +116,31 @@ public class TimeTableController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        //processRequest(request, response);
+        SessionDBContext sDB = new SessionDBContext();
+        SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
+        String lectureId = "sonnt5";
+        Calendar c = Calendar.getInstance();
+        String chooseDate = request.getParameter("chooseDate");
+        try {
+            c.setTime(format1.parse(chooseDate));
+        } catch (ParseException ex) {
+            Logger.getLogger(TimeTableController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        c.setFirstDayOfWeek(Calendar.MONDAY);
+        c.set(Calendar.DAY_OF_WEEK, c.getFirstDayOfWeek());
+        ArrayList<Date> dates = new ArrayList<>();  
+        for (int i = 0; i < 7; i++) {
+            dates.add(Date.valueOf(format1.format(c.getTime())));
+            c.add(Calendar.DAY_OF_WEEK, 1);
+        }
+        ArrayList<Session> sessions = sDB.getByDate(dates.get(0), dates.get(dates.size() - 1), lectureId);
+        request.setAttribute("chooseDate", chooseDate);
+        request.setAttribute("sessions", sessions);
+        request.setAttribute("dates", dates);
+        //request.setAttribute("weeks", weeks);
+        request.setAttribute("lectureId", lectureId);
+        request.getRequestDispatcher("../view/lecture/timetable.jsp").forward(request, response);
 //        SessionDBContext sDB = new SessionDBContext();
 //        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM");
 //        Calendar c = Calendar.getInstance();
