@@ -94,6 +94,8 @@ public class InsertAttendanceController extends HttpServlet {
             arDB.insert(ar);
         }
         sDB.updateStatus(sId);
+        request.setAttribute("action", "insert");
+        request.getRequestDispatcher("lecture/report_confirm.jsp").forward(request, response);
 //        response.sendRedirect("takeattendance?sid="+sId);
     }
 

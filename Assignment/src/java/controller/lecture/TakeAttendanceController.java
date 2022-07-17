@@ -69,9 +69,16 @@ public class TakeAttendanceController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        Date currentDate = new Date(System.currentTimeMillis());
+        String rawDate = request.getParameter("currentDate");
+        Date currentDate;
+        if(rawDate == null){
+            currentDate = new Date(System.currentTimeMillis());
+        }  else {
+            currentDate = Date.valueOf(rawDate);
+        }
+        
         SessionDBContext sDB = new SessionDBContext();
-        String lectureId = null;
+        String lectureId = request.getParameter("lectureId");
 
 //        Collections.sort(sessions, new Comparator<Session>() {
 //            @Override
@@ -83,7 +90,6 @@ public class TakeAttendanceController extends HttpServlet {
         ArrayList<Lecture> lectures = lDB.list();
         request.setAttribute("lectures", lectures);
         request.setAttribute("currentDate", currentDate.toString());
-
         request.setAttribute("lectureId", lectureId);
         request.getRequestDispatcher("../view/lecture/takeattendance.jsp").forward(request, response);
 

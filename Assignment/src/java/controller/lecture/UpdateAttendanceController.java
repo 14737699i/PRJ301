@@ -88,12 +88,14 @@ public class UpdateAttendanceController extends HttpServlet {
             ar.setStudent(s);
             ar.setStatus(Boolean.parseBoolean(request.getParameter("status_"+ i)));
             ar.setComment(request.getParameter("comment_"+ i));
-            response.getWriter().println( ar.getComment());
+            //response.getWriter().println( ar.getComment());
             ar.setRecordTime(Date.valueOf(LocalDate.now()));
             AttendanceReportDBContext arDB = new AttendanceReportDBContext();
             arDB.update(ar);
             
         }
+        request.setAttribute("action", "update");
+        request.getRequestDispatcher("lecture/report_confirm.jsp").forward(request, response);
         
     }
 

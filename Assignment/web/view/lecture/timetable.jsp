@@ -23,63 +23,77 @@
                     <b>View Schedule</b>
                 </span>
             </ol>
-            <form id="formTable" action= "timetable" method="POST">
-                <table>
-                    <thead>
-                        <tr>
-                            <th rowspan="2">
-                                ViewDate: <input type="date" name="chooseDate" value="${requestScope.chooseDate}" onchange="document.getElementById('formTable').submit();"> <br>
-                            </th>
-                            
-                            <th>MON</th>
-                            <th>TUE</th>
-                            <th>WED</th>
-                            <th>THU</th>
-                            <th>FRI</th>
-                            <th>SAT</th>
-                            <th>SUN</th>    
-                        </tr>
-                        <tr>
-                            <c:forEach items ="${requestScope.dates}" var = "d">
-                                <th>${d}</th>
-                            </c:forEach>
-                        </tr>
-                    </thead>
-
-                    <tbody>
-                        <c:forEach var = "i" begin = "1" end = "8">
-                            <tr>
-                                <td>Slot ${i}</td>
-                                <c:forEach items ="${requestScope.dates}" var = "date">
-                                    <td <c:if test="${requestScope.chooseDate eq date}"> bgcolor="#e0fffe"</c:if> >
-                                        <c:set var="flag" value="0"></c:set>
-                                        <c:forEach items="${requestScope.sessions}" var = "s">
-                                            <c:if test = "${(s.sessionDate eq date) and (s.timeSlotId eq i)}">
-                                                <c:set var="flag" value="1"></c:set>
-                                                <a href=""> ${s.group.groupName}<br>-${s.group.courseId} </a> <br>
-                                                at ${s.room} <br>
-                                                <c:if test="${s.status eq true}">
-                                                    <font color = "Green"> (Attendance) </font>
-                                                </c:if>
-                                                <c:if test="${s.status eq false}">
-                                                    <font color = "Red"> (Not yet) </font>
-                                                </c:if> <br>
-                                            </c:if>
-
-
-                                        </c:forEach>
-                                        <c:if test="${flag eq 0}">
-                                            -
-                                        </c:if>
-                                    </td>
-                                </c:forEach>
-
-                            </tr>
-                        </c:forEach>
-                    </tbody>
-
-                </table>
+            <form id="formTake" action= "timetable" method="POST">
+                Lecture: <select name="lectureId">
+                    <c:forEach items="${requestScope.lectures}" var="lec">
+                        <option <c:if test="${param.lectureId eq lec.id}">
+                                selected="selected"
+                            </c:if>
+                            value="${lec.id}" > ${lec.lectureName} </option>
+                    </c:forEach>
+                </select>
+                <input type="submit" value="View">
             </form>
+            <c:if test="${requestScope.lectureId ne null}">
+                <form id="formTable" action= "timetable" method="POST">
+                    <input type="hidden" value="${requestScope.lectureId}" name="lectureId">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th rowspan="2">
+                                    ViewDate: <input type="date" name="chooseDate" value="${requestScope.chooseDate}" onchange="document.getElementById('formTable').submit();"> <br>
+                                </th>
+
+                                <th>MON</th>
+                                <th>TUE</th>
+                                <th>WED</th>
+                                <th>THU</th>
+                                <th>FRI</th>
+                                <th>SAT</th>
+                                <th>SUN</th>    
+                            </tr>
+                            <tr>
+                                <c:forEach items ="${requestScope.dates}" var = "d">
+                                    <th>${d}</th>
+                                    </c:forEach>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <c:forEach var = "i" begin = "1" end = "8">
+                                <tr>
+                                    <td>Slot ${i}</td>
+                                    <c:forEach items ="${requestScope.dates}" var = "date">
+                                        <td <c:if test="${requestScope.chooseDate eq date}"> bgcolor="#fffaa1"</c:if> >
+                                            <c:set var="flag" value="0"></c:set>
+                                            <c:forEach items="${requestScope.sessions}" var = "s">
+                                                <c:if test = "${(s.sessionDate eq date) and (s.timeSlotId eq i)}">
+                                                    <c:set var="flag" value="1"></c:set>
+                                                    <a> ${s.group.groupName}<br>-${s.group.courseId} </a> <br>
+                                                    at ${s.room} <br>
+                                                    <c:if test="${s.status eq true}">
+                                                        <font color = "Green"> (Attendance) </font>
+                                                    </c:if>
+                                                    <c:if test="${s.status eq false}">
+                                                        <font color = "Red"> (Not yet) </font>
+                                                    </c:if> <br>
+                                                </c:if>
+
+
+                                            </c:forEach>
+                                            <c:if test="${flag eq 0}">
+                                                -
+                                            </c:if>
+                                        </td>
+                                    </c:forEach>
+
+                                </tr>
+                            </c:forEach>
+                        </tbody>
+
+                    </table>
+                </form>
+            </c:if>
         </div>
     </body>
 </html>

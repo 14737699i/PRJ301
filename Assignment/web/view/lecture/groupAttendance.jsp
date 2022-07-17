@@ -23,16 +23,18 @@
             <tbody>
                 <tr>
                     <td>
-                        <table>
-                            <tbody>
-                                <tr>
-                                    
-                                </tr>
-                            </tbody>
-                        </table>
+                        <div id="courseColume">
+                            <table>
+                                <tbody>
+                                    <tr>
+
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </td>
                 </tr>
             </tbody>
-         </table>
+        </table>
     </body>
 </html>

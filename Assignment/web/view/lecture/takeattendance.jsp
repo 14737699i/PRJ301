@@ -25,8 +25,8 @@
             </ol>
 
             <form id="formTake" action= "takeattendance" method="POST">
-                <input type="date" name="currentDate" value="${requestScope.currentDate}"> <br>
-                <select name="lectureId">
+                Current Date: <input type="date" name="currentDate" value="${requestScope.currentDate}"> <br>
+                Lecture: <select name="lectureId">
 
                     <c:forEach items="${requestScope.lectures}" var="lec">
                         <option <c:if test="${param.lectureId eq lec.id}">
@@ -35,45 +35,47 @@
                             value="${lec.id}" > ${lec.lectureName} </option>
                     </c:forEach>
                 </select>
-                
+
                 <input type="submit" value="View">
-                </form>
-                <c:if test="${requestScope.lectureId ne null}">
-                    <h3>Today(${requestScope.currentDate}) class by ${requestScope.lectureId}</h3>
-                    <div class="row">
-                        <div class="col-md-8">
-                            <table>
+            </form>
+            <c:if test="${requestScope.lectureId ne null}">
+                <h3>Today(${requestScope.currentDate}) class by ${requestScope.lectureId}</h3>
+                <div class="row">
+                    <div class="col-md-8">
+                        <table>
+                            <tr>
+                                <td>Slot</td>
+                                <td>Class</td>
+                                <td>Course</td>
+                                <td>Status</td>
+                                <td>Take Attendance</td>
+                            </tr>
+                            <c:forEach items= "${requestScope.sessions}" var="s"> 
                                 <tr>
-                                    <td>Slot</td>
-                                    <td>Class</td>
-                                    <td>Course</td>
-                                    <td>Status</td>
-                                    <td>Take Attendance</td>
+                                    <td>${s.timeSlotId}</td>
+                                    <td>${s.group.id}</td>
+                                    <td>${s.group.courseId}</td>
+                                    <td><c:if test="${s.status eq true}">
+                                            <font color = "Green"> Attendance </font>
+                                        </c:if>
+                                        <c:if test="${s.status eq false}">
+                                            <font color = "Red"> Not yet </font>
+                                        </c:if> </td>
+                                    <td>
+                                        <form action="takeattendance" method="POST" >
+                                            <input type="hidden" value="${s.id}" name="sid">
+                                            <input type="hidden" value="${requestScope.currentDate}" name="currentDate">
+                                            <input type="hidden" value="${requestScope.lectureId}" name="lectureId">
+                                            <input type="submit" value="Edit"/>
+                                        </form>
+                                    </td>
                                 </tr>
-                                <c:forEach items= "${requestScope.sessions}" var="s"> 
-                                    <tr>
-                                        <td>${s.timeSlotId}</td>
-                                        <td>${s.group.id}</td>
-                                        <td>${s.group.courseId}</td>
-                                        <td><c:if test="${s.status eq true}">
-                                                <font color = "Green"> Attendance </font>
-                                            </c:if>
-                                            <c:if test="${s.status eq false}">
-                                                <font color = "Red"> Not yet </font>
-                                            </c:if> </td>
-                                        <td>
-                                            <form action="takeattendance" method="POST" >
-                                                <input type="hidden" value="${s.id}" name="sid">
-                                                <input type="submit" value="Edit"/>
-                                            </form>
-                                        </td>
-                                    </tr>
-                                </c:forEach>         
-                            </table>
-                        </div>
+                            </c:forEach>         
+                        </table>
                     </div>
-                </c:if> 
-            
+                </div>
+            </c:if> 
+
         </div>
     </body>
 </html>
